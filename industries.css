@@ -1,0 +1,445 @@
+/* ============================================================
+   INDUSTRIES SECTION — glass folder cards
+   Exact design spec: IndustriesSection.jsx + .css
+   Adapted to plain HTML / CSS / JS for this portfolio
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Cardo:wght@400;700&display=swap');
+
+.ind-section {
+  background: #ffffff;
+  border-top: 1px solid #cfcfd6;
+  padding: clamp(72px, 10vw, 120px) 0;
+}
+
+.ind-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 60px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 6vw, 64px);
+}
+
+/* ── Heading — centred ── */
+.ind-heading-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.ind-heading {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.ind-h-black  { color: #111111; }
+.ind-h-accent {
+  color: transparent !important;
+  background-image: linear-gradient(135deg, #f16823 0%, #ba2026 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.ind-subhead {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  color: rgba(0, 0, 0, 0.4);
+  margin: 0;
+}
+
+/* ── Grid ── */
+.ind-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ══════════════════════════════════════════════════════
+   FOLDER CARD
+   ══════════════════════════════════════════════════════ */
+.ind-folder {
+  position: relative;
+  display: block;
+  height: 300px;               /* back panel + headroom for file peek */
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Drop shadow that shifts with tilt */
+.ind-folder-shadow {
+  position: absolute;
+  bottom: -10px;
+  left: 10%;
+  right: 10%;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(10, 12, 20, 0.5);
+  filter: blur(18px);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Tilting stage — all three layers rotate together */
+.ind-folder-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* ── BACK PANEL ── */
+.ind-folder-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(160deg, var(--ind-from, #f4f4f6) 0%, var(--ind-to, #e8e8ee) 100%);
+}
+
+/* Folder tab notch in top-left corner */
+.ind-folder-tab {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 56px;
+  height: 16px;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid var(--ind-glow, rgba(0,0,0,.12));
+  border-bottom: none;
+  background: var(--ind-from, #f4f4f6);
+  margin-top: -8px;
+}
+
+.ind-folder-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(280px 180px at 78% 12%, var(--ind-glow, rgba(0,0,0,.1)) 0%, transparent 72%);
+}
+
+/* ── PEEKING FILE ── */
+.ind-folder-file {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 30px;                   /* sits above the front panel top */
+  height: 120px;
+  background: #ffffff;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: none;
+  overflow: hidden;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.55s cubic-bezier(0.34, 1.2, 0.5, 1);
+  z-index: 4;
+}
+
+.ind-file-inner {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ind-file-label {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ind-accent, #111111);
+}
+
+.ind-file-line {
+  display: block;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+}
+
+/* ── FRONT GLASS PANEL ── */
+.ind-folder-front-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 210px;               /* height of the front panel */
+  transform-origin: 50% 100%;  /* hinge on bottom edge */
+  z-index: 10;
+}
+
+.ind-folder-front {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    0 2px 0 rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.08);
+  transition: box-shadow 0.4s ease;
+}
+
+/* Glass tint — gradient from clear top to opaque bottom */
+.ind-front-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.55) 45%,
+    rgba(248,248,250,0.96) 100%
+  );
+  pointer-events: none;
+}
+
+/* Moving specular */
+.ind-front-spec {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Glass rim */
+.ind-front-rim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Content on the front panel */
+.ind-front-content {
+  position: absolute;
+  inset: 0;
+  padding: 18px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 1;
+}
+
+.ind-front-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ind-front-num {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  flex-shrink: 0;
+  color: var(--ind-accent, #111111);
+}
+
+.ind-front-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: #111111;
+  margin: 0;
+}
+
+/* Project description — always visible (this is the real project content) */
+.ind-front-reveal {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.ind-front-body {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(0.8rem, 1vw, 0.88rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0;
+  padding-top: 12px;
+  overflow: hidden;
+}
+
+/* Tech chips — the project's stack */
+.ind-front-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.ind-front-chips span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.55);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 100px;
+  padding: 3px 9px;
+}
+
+/* Visible "open project" affordance — the whole folder is the link */
+.ind-visit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ind-accent, #111111);
+}
+
+.ind-visit b {
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ind-folder:hover .ind-visit b { transform: translate(2px, -2px); }
+}
+
+/* ══════════════════════════════════════════════════════
+   HOVER EFFECTS — real hover devices only (desktop)
+   ══════════════════════════════════════════════════════ */
+@media (hover: hover) and (pointer: fine) {
+  .ind-folder:hover .ind-folder-file {
+    transform: translateY(-18px);
+  }
+
+  .ind-folder:hover .ind-folder-front {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      0 2px 0 rgba(0,0,0,0.04),
+      0 20px 56px rgba(0,0,0,0.14);
+  }
+
+  .ind-folder:hover .ind-front-spec {
+    opacity: 1;
+  }
+}
+
+/* ── Responsive grid ── */
+@media (max-width: 900px) {
+  .ind-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .ind-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* ══════════════════════════════════════════════════════
+   MOBILE / TOUCH — same layout, text always visible,
+   no hover effects at all.
+   ══════════════════════════════════════════════════════ */
+@media (hover: none), (pointer: coarse), (max-width: 560px) {
+  .ind-front-reveal {
+    grid-template-rows: 1fr !important;
+    transition: none !important;
+  }
+
+  .ind-folder-front-wrap { height: 210px; }
+
+  .ind-folder { height: 300px; }
+
+  .ind-folder:hover .ind-folder-file { transform: none !important; }
+
+  .ind-folder:hover .ind-folder-front {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      0 2px 0 rgba(0,0,0,0.04),
+      0 8px 24px rgba(0,0,0,0.08) !important;
+  }
+
+  .ind-folder:hover .ind-front-spec { opacity: 0 !important; }
+
+  .ind-folder-file,
+  .ind-folder-front,
+  .ind-folder-shadow { transition: none !important; }
+}
+
+/* ============================================================
+   PORTFOLIO ADDITIONS — fonts, shimmer, scroll entrance
+   ============================================================ */
+
+/* Cardo beats the CSS-set Bricolage on headings, exactly like the
+   HEADING_CSS override in the original component. */
+.ind-section .ind-heading,
+.ind-section .ind-heading span,
+.ind-section .ind-h-black,
+.ind-section .ind-h-accent,
+.ind-section .text-shimmer,
+.ind-section .ind-front-title {
+  font-family: 'Cardo', serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg,#f16823 0%,#ba2026 25%,#f16823 50%,#ba2026 75%,#f16823 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: indShimmer 8s linear infinite;
+}
+@keyframes indShimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Scroll entrance (framer-motion equivalent).
+   Classes are added by industries.js, so the cards stay visible if JS fails. */
+.ind-section.ind-ready .ind-folder {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .42s ease, transform .42s cubic-bezier(.4,0,.2,1);
+}
+.ind-section.ind-ready .ind-folder.in-view {
+  opacity: 1;
+  transform: none;
+}
+.ind-section.ind-ready .ind-heading-block {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.ind-section.ind-ready .ind-heading-block.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ind-section.ind-ready .ind-folder,
+  .ind-section.ind-ready .ind-heading-block {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .text-shimmer { animation: none; }
+}
